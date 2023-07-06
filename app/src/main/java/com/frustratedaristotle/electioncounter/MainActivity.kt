@@ -12,10 +12,13 @@ class MainActivity : AppCompatActivity() {
     var texts = arrayListOf<TextView>()
     var counts = arrayListOf<Int>()
 
+    lateinit var pref : SharedPreferences
+    //val editor = pref.edit()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        pref = this.getSharedPreferences(packageName, MODE_PRIVATE)
         arrayInit()
         buttonInit()
     }
@@ -78,5 +81,7 @@ class MainActivity : AppCompatActivity() {
     {
         counts[index] += value
         texts[index].text = "${names[index]} : ${counts[index]}"
+        pref.edit().putInt(index.toString(), counts.get(index)).apply()
+        textView1.text = pref.getInt(index.toString(), 0).toString()
     }
 }
